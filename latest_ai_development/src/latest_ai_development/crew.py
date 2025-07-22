@@ -21,6 +21,17 @@ class LatestAiDevelopment():
     
     # If you would like to add tools to your agents, you can learn more about it here:
     # https://docs.crewai.com/concepts/agents#agent-tools
+    
+    @agent
+    def web_reader(self) -> Agent:
+        return Agent(
+            config=self.agents_config['web_reader'],  # YAML config for the web reader
+            verbose=True,
+            tools=[SerperDevTool()]  # You can also use BeautifulSoupTool or custom tool for raw scraping
+        )
+
+    '''
+    
     @agent
     def researcher(self) -> Agent:
         return Agent(
@@ -35,10 +46,19 @@ class LatestAiDevelopment():
             config=self.agents_config['reporting_analyst'], # type: ignore[index]
             verbose=True
         )
-
+    '''
     # To learn more about structured task outputs,
     # task dependencies, and task callbacks, check out the documentation:
     # https://docs.crewai.com/concepts/tasks#overview-of-a-task
+
+    @task
+    def webreader_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['webreader_task'],
+            output_file='web_summary.md'
+        )
+
+    '''
     @task
     def research_task(self) -> Task:
         return Task(
@@ -51,7 +71,7 @@ class LatestAiDevelopment():
             config=self.tasks_config['reporting_task'], # type: ignore[index]
             output_file='report.md'
         )
-
+    '''
     @crew
     def crew(self) -> Crew:
         """Creates the LatestAiDevelopment crew"""
